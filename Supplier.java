@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -47,10 +48,32 @@ public class Supplier extends JFrame {
         JButton updateButton = new JButton("Update");
         JButton deleteButton = new JButton("Delete");
 
+        // Set background colors for panels
+        JPanel inputPanel = new JPanel(new GridBagLayout());
+        inputPanel.setBackground(new Color(139, 194, 255)); // Coklat muda
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.setBackground(new Color(0, 100, 213)); // Coklat tua
+
+        // Set foreground (text) colors for labels
+        labelaktifitas.setForeground(Color.BLACK);
+        labelID.setForeground(Color.BLACK);
+        labelnama.setForeground(Color.BLACK);
+        labelalamat.setForeground(Color.BLACK);
+        labelnotelp.setForeground(Color.BLACK);
+
+        // Set background color for buttons
+        addButton.setBackground(new Color(9, 255, 99)); // Green
+        updateButton.setBackground(new Color(255, 200, 100)); // Yellow
+        deleteButton.setBackground(new Color(255, 0, 0)); // Red
+
+        // Set foreground (text) colors for buttons
+        addButton.setForeground(Color.BLACK);
+        updateButton.setForeground(Color.BLACK);
+        deleteButton.setForeground(Color.BLACK);
+
         // Create layout
         setLayout(new BorderLayout());
 
-        JPanel inputPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.NORTHWEST; // Align components at the top left corner
         gbc.insets = new Insets(5, 5, 5, 5); // Adjust the insets as needed
@@ -98,7 +121,6 @@ public class Supplier extends JFrame {
         // Create layout
         setLayout(new BorderLayout());
 
-        JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.add(addButton);
         buttonPanel.add(updateButton);
         buttonPanel.add(deleteButton);

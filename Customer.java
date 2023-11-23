@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -6,8 +7,6 @@ import java.sql.*;
 import javax.swing.text.BadLocationException;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 public class Customer extends JFrame {
 
@@ -47,10 +46,32 @@ public class Customer extends JFrame {
         JButton updateButton = new JButton("Update");
         JButton deleteButton = new JButton("Delete");
 
+        // Set background colors for panels
+        JPanel inputPanel = new JPanel(new GridBagLayout());
+        inputPanel.setBackground(new Color(139, 194, 255)); // Coklat muda
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.setBackground(new Color(0, 100, 213)); // Coklat tua
+
+        // Set foreground (text) colors for labels
+        labelaktifitas.setForeground(Color.BLACK);
+        labelID.setForeground(Color.BLACK);
+        labelnama.setForeground(Color.BLACK);
+        labelalamat.setForeground(Color.BLACK);
+        labelnotelp.setForeground(Color.BLACK);
+
+        // Set background color for buttons
+        addButton.setBackground(new Color(9, 255, 99)); // Green
+        updateButton.setBackground(new Color(255, 200, 100)); // Yellow
+        deleteButton.setBackground(new Color(255, 0, 0)); // Red
+
+        // Set foreground (text) colors for buttons
+        addButton.setForeground(Color.BLACK);
+        updateButton.setForeground(Color.BLACK);
+        deleteButton.setForeground(Color.BLACK);
+
         // Create layout
         setLayout(new BorderLayout());
 
-        JPanel inputPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.NORTHWEST; // Align components at the top left corner
         gbc.insets = new Insets(5, 5, 5, 5); // Adjust the insets as needed
@@ -97,8 +118,6 @@ public class Customer extends JFrame {
 
         // Create layout
         setLayout(new BorderLayout());
-
-        JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.add(addButton);
         buttonPanel.add(updateButton);
         buttonPanel.add(deleteButton);
@@ -114,6 +133,54 @@ public class Customer extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 handleDeleteClick(e);
+            }
+        });
+
+        jcomp2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedOption = (String) jcomp2.getSelectedItem();
+
+                if (selectedOption.equals("Update")) {
+                    labelID.setVisible(true);
+                    textFieldID.setVisible(true);
+                    labelnama.setVisible(false);
+                    textFieldName.setVisible(false);
+                    labelalamat.setVisible(true);
+                    textFieldAlamat.setVisible(true);
+                    labelnotelp.setVisible(true);
+                    textFieldNoTelp.setVisible(true);
+                    textFieldKuantitas.setVisible(false);
+                    addButton.setVisible(false);
+                    updateButton.setVisible(true);
+                    deleteButton.setVisible(false);
+                } else if (selectedOption.equals("Delete")) {
+                    labelID.setVisible(false);
+                    textFieldID.setVisible(false);
+                    labelnama.setVisible(false);
+                    textFieldName.setVisible(false);
+                    labelalamat.setVisible(false);
+                    textFieldAlamat.setVisible(false);
+                    labelnotelp.setVisible(false);
+                    textFieldNoTelp.setVisible(false);
+                    textFieldKuantitas.setVisible(false);
+                    addButton.setVisible(false);
+                    updateButton.setVisible(false);
+                    deleteButton.setVisible(true);
+                } else if (selectedOption.equals("Create")) {
+                    labelID.setVisible(true);
+                    textFieldID.setVisible(true);
+                    labelnama.setVisible(true);
+                    textFieldName.setVisible(true);
+                    labelalamat.setVisible(true);
+                    textFieldAlamat.setVisible(true);
+                    labelnotelp.setVisible(true);
+                    textFieldNoTelp.setVisible(true);
+                    textFieldKuantitas.setVisible(true);
+                    addButton.setVisible(true);
+                    updateButton.setVisible(false);
+                    deleteButton.setVisible(false);
+                }
             }
         });
 
@@ -238,7 +305,6 @@ public class Customer extends JFrame {
                 "trustStore=<path-to-truststore>;" +
                 "trustStorePassword=<truststore-password>;" +
                 "loginTimeout=30;";
-
         try {
             connection = DriverManager.getConnection(connectionUrl);
             readRecords();
@@ -246,18 +312,10 @@ public class Customer extends JFrame {
             ex.printStackTrace();
         }
 
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1000, 600); // Set the size according to your preferences (width, height)
         setLocationRelativeTo(null); // Center the frame on the screen
         setVisible(true);
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                // Instead of disposing, just hide the second GUI
-                setVisible(false);
-                System.out.println("Second GUI closed");
-            }
-        });
 
     }
 
@@ -279,15 +337,6 @@ public class Customer extends JFrame {
 
             statement.executeUpdate(insertSql);
             readRecords();
-
-            // // Insert the corresponding record in TransaksiCustomer
-            // String insertTransaksiSql = "INSERT INTO TransaksiCustomer (Customer_ID,
-            // Transaksi_ID, Total_Harga) VALUES ('"
-            // + ID + "', '"
-            // + newTransaksiId + "', '"
-            // + "0" + "')";
-
-            // statement.executeUpdate(insertTransaksiSql);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -321,7 +370,6 @@ public class Customer extends JFrame {
         // Mengaktifkan pemilihan pada baris yang diklik
         resultTextArea.setSelectionStart(lineStartOffset);
         resultTextArea.setSelectionEnd(lineEndOffset);
-
     }
 
     private void readRecords() {

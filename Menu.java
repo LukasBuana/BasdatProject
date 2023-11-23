@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,13 +8,14 @@ public class Menu extends JFrame {
 
     private Customer Customer;
     private Supplier Supplier;
+    private Transaksi Transaksi;
 
     public Menu() {
         super("Menu");
 
         JButton cust_button = new JButton("Customer");
         JButton sup_button = new JButton("Supplier");
-        JButton trans_button = new JButton("Transaksi");
+        JButton trans_button = new JButton("DataTransaksi");
         cust_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -39,7 +41,11 @@ public class Menu extends JFrame {
         trans_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Transaksi button clicked");
+                if (Transaksi == null) {
+                    Transaksi = new Transaksi();
+                } else {
+                    Transaksi.setVisible(true);
+                }
             }
         });
 
