@@ -10,7 +10,8 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.Timer;
-
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
@@ -55,11 +56,17 @@ public class DetailTransaksi extends javax.swing.JFrame {
         FilterDataComboBox = new javax.swing.JComboBox<>();
         CariDataButton = new javax.swing.JButton();
         FilterButton = new javax.swing.JButton();
+        ImageIcon logoIcon = new ImageIcon("logo.png");
+        JLabel logoLabel = new JLabel(
+                new ImageIcon(logoIcon.getImage().getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH)));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 221));
+        jPanel1.add(logoLabel);
+        jPanel1.setLayout(null);
 
+        logoLabel.setBounds((jPanel1.getWidth() - 200) / 2 + 100, -10, 200, 200);
         OpsiMitraLabel.setFont(new java.awt.Font("Segoe UI", 1, 12));
         OpsiMitraLabel.setForeground(new java.awt.Color(255, 255, 255));
         OpsiMitraLabel.setText("Opsi Mitra:");

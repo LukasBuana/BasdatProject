@@ -2,6 +2,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.Timer;
 
 public class Homepage extends javax.swing.JFrame {
@@ -11,7 +15,6 @@ public class Homepage extends javax.swing.JFrame {
     private Transaksi Transaksi;
 
     public Homepage() {
-
         initComponents();
         initClock();
     }
@@ -24,11 +27,18 @@ public class Homepage extends javax.swing.JFrame {
         MenuComboBox = new javax.swing.JComboBox<>();
         PilihButton = new javax.swing.JButton();
         Tanggal = new javax.swing.JLabel();
+        ImageIcon logoIcon = new ImageIcon("logo.png");
+        JLabel logoLabel = new JLabel(
+                new ImageIcon(logoIcon.getImage().getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH)));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 102, 221));
 
         BackgroundBiru.setBackground(new java.awt.Color(0, 102, 221));
+        BackgroundBiru.add(logoLabel);
+        BackgroundBiru.setLayout(null);
+
+        logoLabel.setBounds((BackgroundBiru.getWidth() - 200) / 2 + 410, -10, 200, 200);
 
         PilihMenuLabel.setFont(new java.awt.Font("Segoe UI", 1, 22));
         PilihMenuLabel.setForeground(new java.awt.Color(255, 255, 255));
@@ -180,22 +190,25 @@ public class Homepage extends javax.swing.JFrame {
 
     private void PilihButtonCustActionPerformed(java.awt.event.ActionEvent evt) {
         Customer customer = new Customer();
+        customer.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Mengatur GUI untuk ditutup pada dispose
         customer.setVisible(true);
     }
 
     private void PilihButtonSupActionPerformed(java.awt.event.ActionEvent evt) {
         Supplier supplier = new Supplier();
+        supplier.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         supplier.setVisible(true);
     }
 
     private void PilihButtonDataTransActionPerformed(java.awt.event.ActionEvent evt) {
         Transaksi transaksi = new Transaksi();
+        transaksi.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         transaksi.setVisible(true);
-
     }
 
     private void PilihButtonDetailActionPerformed(java.awt.event.ActionEvent evt) {
         DetailTransaksi detailTransaksi = new DetailTransaksi();
+        detailTransaksi.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         detailTransaksi.setVisible(true);
     }
 
@@ -219,7 +232,10 @@ public class Homepage extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Homepage().setVisible(true);
+                Homepage homepage = new Homepage();
+                homepage.setLocationRelativeTo(null); // Mengatur posisi frame ke tengah layar
+                homepage.setVisible(true);
+
             }
         });
     }
