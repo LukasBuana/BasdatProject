@@ -2,7 +2,13 @@
     "java.project.referencedLibraries": {
         "include": [
             "lib/**/*.jar",
-            "c:\\Program Files\\Microsoft JDBC DRIVER 9.4 for SQL Server\\sqljdbc_12.4\\enu\\jars\\mssql-jdbc-12.4.2.jre8.jar"
+            "c:\\Program Files\\Microsoft JDBC DRIVER 9.4 for SQL Server\\sqljdbc_12.4\\enu\\jars\\mssql-jdbc-12.4.2.jre8.jar",
+            "d:\\Jasper\\commons-beanutils-1.9.4.jar",
+            "d:\\Jasper\\commons-collections4-4.4.jar",
+            "d:\\Jasper\\commons-digester-2.1.jar",
+            "d:\\Jasper\\commons-logging-1.2.jar",
+            "d:\\Jasper\\itext-2.1.7.js6-20170307.125214-1.jar",
+            "d:\\Jasper\\jasperreports-6.20.6.jar"
         ],
         "exclude": [
             "d:\\Jasper\\sqljdbc_12.4\\enu\\jars\\mssql-jdbc-12.4.2.jre8.jar"

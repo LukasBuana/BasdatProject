@@ -1,6 +1,9 @@
+
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,7 +14,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.Timer;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
@@ -19,6 +24,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class DetailTransaksi extends javax.swing.JFrame {
     private Connection connection;
@@ -47,6 +54,7 @@ public class DetailTransaksi extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         OpsiMitraLabel = new javax.swing.JLabel();
         OpsiMitraComboBox = new javax.swing.JComboBox<>();
+        CetakButton = new javax.swing.JButton();
         TampilkanButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         DetailTransTabel = new javax.swing.JTable();
@@ -82,6 +90,15 @@ public class DetailTransaksi extends javax.swing.JFrame {
         TampilkanButton.setForeground(new java.awt.Color(0, 102, 221));
         TampilkanButton.setText("Tampilkan");
 
+        CetakButton.setFont(new java.awt.Font("Segoe UI", 1, 18));
+        CetakButton.setForeground(new java.awt.Color(0, 102, 221));
+        CetakButton.setText("Cetak Report");
+        CetakButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CetakButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -99,8 +116,11 @@ public class DetailTransaksi extends javax.swing.JFrame {
                                                 .addGap(0, 0, Short.MAX_VALUE))
                                         .addComponent(TampilkanButton, javax.swing.GroupLayout.Alignment.TRAILING,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(CetakButton, javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addContainerGap()));
+
         jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
@@ -110,6 +130,8 @@ public class DetailTransaksi extends javax.swing.JFrame {
                                 .addComponent(OpsiMitraComboBox, javax.swing.GroupLayout.PREFERRED_SIZE,
                                         javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(242, 242, 242)
+                                .addComponent(CetakButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(TampilkanButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
                                         javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(18, Short.MAX_VALUE)));
@@ -281,7 +303,34 @@ public class DetailTransaksi extends javax.swing.JFrame {
                 readRecordsCus();
             }
         });
+        for (ActionListener al : CetakButton.getActionListeners()) {
+            CetakButton.removeActionListener(al);
+        }
+        CetakButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    connection = DriverManager.getConnection(connectionUrl);
+                    String report = "D:\\Jasper\\Jaspersoft Studio-6.20.6\\Detail Transaksi Cust.jrxml";
+                    JasperReport jr = JasperCompileManager.compileReport(report);
+                    JasperPrint jp = JasperFillManager.fillReport(jr, null, connection);
 
+                    JasperViewer viewer = new JasperViewer(jp, false);
+                    viewer.addWindowListener(new WindowAdapter() {
+                        @Override
+                        public void windowClosing(WindowEvent windowEvent) {
+                            viewer.dispose();
+                        }
+                    });
+                    viewer.setVisible(true);
+                } catch (JRException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(rootPane, ex);
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
         CariDataButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -377,6 +426,34 @@ public class DetailTransaksi extends javax.swing.JFrame {
                             readRecordsCus();
                         }
                     });
+                    for (ActionListener al : CetakButton.getActionListeners()) {
+                        CetakButton.removeActionListener(al);
+                    }
+                    CetakButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            try {
+                                connection = DriverManager.getConnection(connectionUrl);
+                                String report = "D:\\Jasper\\Jaspersoft Studio-6.20.6\\Detail Transaksi Cust.jrxml";
+                                JasperReport jr = JasperCompileManager.compileReport(report);
+                                JasperPrint jp = JasperFillManager.fillReport(jr, null, connection);
+
+                                JasperViewer viewer = new JasperViewer(jp, false);
+                                viewer.addWindowListener(new WindowAdapter() {
+                                    @Override
+                                    public void windowClosing(WindowEvent windowEvent) {
+                                        viewer.dispose();
+                                    }
+                                });
+                                viewer.setVisible(true);
+                            } catch (JRException ex) {
+                                ex.printStackTrace();
+                                JOptionPane.showMessageDialog(rootPane, ex);
+                            } catch (SQLException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                    });
                 } else if (selectedMitra.equals("Supplier")) {
                     for (ActionListener al : TampilkanButton.getActionListeners()) {
                         TampilkanButton.removeActionListener(al);
@@ -387,6 +464,35 @@ public class DetailTransaksi extends javax.swing.JFrame {
                             readRecordsSup();
                         }
                     });
+                    for (ActionListener al : CetakButton.getActionListeners()) {
+                        CetakButton.removeActionListener(al);
+                    }
+                    CetakButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            try {
+                                connection = DriverManager.getConnection(connectionUrl);
+                                String report = "D:\\Jasper\\Jaspersoft Studio-6.20.6\\Detail Transaksi Supp.jrxml";
+                                JasperReport jr = JasperCompileManager.compileReport(report);
+                                JasperPrint jp = JasperFillManager.fillReport(jr, null, connection);
+
+                                JasperViewer viewer = new JasperViewer(jp, false);
+                                viewer.addWindowListener(new WindowAdapter() {
+                                    @Override
+                                    public void windowClosing(WindowEvent windowEvent) {
+                                        viewer.dispose();
+                                    }
+                                });
+                                viewer.setVisible(true);
+                            } catch (JRException ex) {
+                                ex.printStackTrace();
+                                JOptionPane.showMessageDialog(rootPane, ex);
+                            } catch (SQLException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                    });
+
                 }
             }
         });
@@ -797,6 +903,10 @@ public class DetailTransaksi extends javax.swing.JFrame {
 
     }
 
+    private void CetakButtonActionPerformed(java.awt.event.ActionEvent evt) {
+
+    }
+
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -829,6 +939,7 @@ public class DetailTransaksi extends javax.swing.JFrame {
     private javax.swing.JButton CariDataButton;
     private javax.swing.JLabel CariDataLabel;
     private javax.swing.JTextField CariDataTxtBox;
+    private javax.swing.JButton CetakButton;
     private javax.swing.JTable DetailTransTabel;
     private javax.swing.JButton FilterButton;
     private javax.swing.JComboBox<String> FilterDataComboBox;
